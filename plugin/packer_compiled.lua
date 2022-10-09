@@ -189,11 +189,6 @@ _G.packer_plugins = {
     path = "/home/dev/.local/share/nvim/site/pack/packer/start/nvim-ipy",
     url = "https://github.com/bfredl/nvim-ipy"
   },
-  ["nvim-lsp-installer"] = {
-    loaded = true,
-    path = "/home/dev/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
-  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/dev/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
