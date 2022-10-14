@@ -111,6 +111,17 @@ local function config(_config)
     }, _config or {})
 end
 
+require("nvim-lsp-installer").setup({
+    automatic_installation = true,
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+
 require("lspconfig").zls.setup(config())
 
 require("lspconfig").tsserver.setup(config())
@@ -185,60 +196,33 @@ require("luasnip.loaders.from_vscode").lazy_load({
     exclude = {},
 })
 
-local on_attach = function()
-    nnoremap("gd", function() vim.lsp.buf.definition() end)
-    nnoremap("K", function() vim.lsp.buf.hover() end)
-    nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-    nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-    nnoremap("[d", function() vim.diagnostic.goto_next() end)
-    nnoremap("]d", function() vim.diagnostic.goto_prev() end)
-    nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
-    nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
-            filter = function(code_action)
-                if not code_action or not code_action.data then
-                    return false
-                end
 
-                local data = code_action.data.id
-                return string.sub(data, #data - 1, #data) == ":0"
-            end,
-            apply = true
-        })
-    end)
-    nnoremap("<leader>vrr", function() vim.lsp.buf.references() end)
-    nnoremap("<leader>vrn", function() vim.lsp.buf.rename() end)
-    inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+require("lspconfig").tailwindcss.setup(config())
+
+require("lspconfig").astro.setup(config())
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    update_in_insert = false,
+    virtual_text = { spacing = 4, prefix = "●" },
+    severity_sort = true,
+}
+)
+
+-- Diagnostic symbols in the sign column (gutter)
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
-local lsp_flags = {
-    debounce_text_changes = 150,
-}
-require("nvim-lsp-installer").setup({
-    automatic_installation = true,
-    ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
+
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = '●'
+    },
+    update_in_insert = true,
+    float = {
+        source = "always", -- Or "if_many"
+    },
 })
-require('lspconfig')['tsserver'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags
-}
-require('lspconfig')['rust_analyzer'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-    -- Server-specific settings...
-    settings = {
-        ["rust-analyzer"] = {}
-    }
-}
-require('lspconfig')['pyright'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['sumneko_lua'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-}

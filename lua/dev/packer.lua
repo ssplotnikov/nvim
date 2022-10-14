@@ -1,4 +1,4 @@
-return require("packer").startup(function()
+return require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
     use("sbdchd/neoformat")
 
@@ -22,7 +22,7 @@ return require("packer").startup(function()
     use("hrsh7th/cmp-nvim-lsp")
     use("hrsh7th/cmp-buffer")
     use("hrsh7th/nvim-cmp")
-    use("tzachar/cmp-tabnine", { run = "./install.sh" })
+    use { "tzachar/cmp-tabnine", run = "./install.sh", requires = 'hrsh7th/nvim-cmp' }
     use("onsails/lspkind-nvim")
     use("nvim-lua/lsp_extensions.nvim")
     use("glepnir/lspsaga.nvim")
@@ -57,7 +57,7 @@ return require("packer").startup(function()
     use("rcarriga/nvim-dap-ui")
     use("theHamsta/nvim-dap-virtual-text")
 
-	--[[
+    --[[
     --
 	-- Lazy loading:
 	-- Load on specific commands
@@ -72,7 +72,7 @@ return require("packer").startup(function()
 	'w0rp/ale',
 	ft = {'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex'},
 	cmd = 'ALEEnable',
-	config = 'vim.cmd[[ALEEnable]]--[['
+	config = 'vim.cmd[[ALEEnable]] --[['
 	}
 
 	-- Plugins can have dependencies on other plugins
@@ -123,5 +123,154 @@ return require("packer").startup(function()
 	use {'dracula/vim', as = 'dracula'}
 	end)
 	--]]
-end)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end)
