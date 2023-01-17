@@ -5,6 +5,7 @@ local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
 
+
 nnoremap("<leader>pv", ":Ex<CR>")
 nnoremap("<leader>u", ":UndotreeShow<CR>")
 
@@ -39,6 +40,8 @@ nnoremap("<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 nnoremap("<leader>f", function()
     vim.lsp.buf.format()
 end)
+-- nnoremap("<leader>f", "<cmd>EslintFixAll<CR>")
+
 
 nnoremap("<C-k>", "<cmd>cnext<CR>zz")
 nnoremap("<C-j>", "<cmd>cprev<CR>zz")
@@ -47,5 +50,3 @@ nnoremap("<leader>j", "<cmd>lprev<CR>zz")
 
 nnoremap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 nnoremap("<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
-

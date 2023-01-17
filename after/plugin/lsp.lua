@@ -2,6 +2,8 @@ local Remap = require("dev.keymap")
 local nnoremap = Remap.nnoremap
 local inoremap = Remap.inoremap
 
+--vim.opt.clipboard = 'unnamedplus'
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -11,7 +13,6 @@ local source_mapping = {
     buffer = "[Buffer]",
     nvim_lsp = "[LSP]",
     nvim_lua = "[Lua]",
-    cmp_tabnine = "[TN]",
     path = "[Path]",
 }
 local lspkind = require("lspkind")
@@ -40,12 +41,6 @@ cmp.setup({
         format = function(entry, vim_item)
             vim_item.kind = lspkind.presets.default[vim_item.kind]
             local menu = source_mapping[entry.source.name]
-            if entry.source.name == "cmp_tabnine" then
-                if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                    menu = entry.completion_item.data.detail .. " " .. menu
-                end
-                vim_item.kind = ""
-            end
             vim_item.menu = menu
             return vim_item
         end,
@@ -54,7 +49,6 @@ cmp.setup({
     sources = {
         -- tabnine completion? yayaya
 
-        { name = "cmp_tabnine" },
 
         { name = "nvim_lsp" },
 
@@ -72,18 +66,9 @@ cmp.setup({
     },
 })
 
-local tabnine = require("cmp_tabnine.config")
-tabnine:setup({
-    max_lines = 1000,
-    max_num_results = 20,
-    sort = true,
-    run_on_every_keystroke = true,
-    snippet_placeholder = "..",
-})
-
 local function config(_config)
     return vim.tbl_deep_extend("force", {
-        capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
         on_attach = function()
             nnoremap("gd", function() vim.lsp.buf.definition() end)
             nnoremap("K", function() vim.lsp.buf.hover() end)
@@ -122,11 +107,12 @@ require("nvim-lsp-installer").setup({
     }
 })
 
-require("lspconfig").zls.setup(config())
+
+require("lspconfig").volar.setup(config())
+
+require("lspconfig").vuels.setup(config())
 
 require("lspconfig").tsserver.setup(config())
-
-require("lspconfig").ccls.setup(config())
 
 require("lspconfig").jedi_language_server.setup(config())
 
@@ -135,6 +121,8 @@ require("lspconfig").svelte.setup(config())
 require("lspconfig").solang.setup(config())
 
 require("lspconfig").cssls.setup(config())
+
+require("lspconfig").sumneko_lua.setup(config())
 
 require("lspconfig").gopls.setup(config({
     cmd = { "gopls", "serve" },
@@ -200,6 +188,12 @@ require("luasnip.loaders.from_vscode").lazy_load({
 require("lspconfig").tailwindcss.setup(config())
 
 require("lspconfig").astro.setup(config())
+
+require("lspconfig").eslint.setup(config())
+
+require("lspconfig").jsonls.setup(config())
+
+require("lspconfig").emmet_ls.setup(config())
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {

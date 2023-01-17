@@ -1,5 +1,6 @@
 local set = vim.opt
 
+
 set.guicursor = ""
 
 set.nu = true
@@ -14,6 +15,7 @@ set.expandtab = true
 
 set.smartindent = true
 
+set.tw = 80
 set.wrap = false
 
 set.swapfile = false
@@ -43,4 +45,3 @@ set.shortmess:append("c")
 set.colorcolumn = "80"
 
 vim.g.mapleader = " "
-
